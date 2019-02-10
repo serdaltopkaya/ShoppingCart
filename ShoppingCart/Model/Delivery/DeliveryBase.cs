@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ECommerceShopping.Model.Delivery
+namespace ECommerceShopping
 {
     public abstract class DeliveryBase
     {
         private decimal FixedPrice;
         private decimal CostPerDelivery;
-        private decimal CostPerProduct;
+        private decimal CostPerProduct;        
 
         public DeliveryBase(decimal fixedPrice, decimal costPerDelivery, decimal costPerProduct)
         {
@@ -21,8 +21,8 @@ namespace ECommerceShopping.Model.Delivery
         }
         public abstract decimal CalculateCost(ShoppingCart cart);
 
-        protected decimal _fixedPrice => FixedPrice;
-        protected decimal _costPerDelivery => CostPerDelivery;
-        protected decimal _costPerPrpduct => CostPerProduct;
+        public decimal _fixedPrice => FixedPrice;
+        public decimal _costPerDelivery => CostPerDelivery;
+        public decimal _costPerProduct => CostPerProduct;
     }
 }

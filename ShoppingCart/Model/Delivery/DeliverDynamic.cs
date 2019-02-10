@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ECommerceShopping.Model.Delivery
+namespace ECommerceShopping
 {
     public class DeliverDynamic : DeliveryBase
     {
@@ -17,7 +17,7 @@ namespace ECommerceShopping.Model.Delivery
 
             DetectCategoryAndProductCount(cart._selectedProducts, out int categoryCount, out int productCount);
 
-            var totalCost = _fixedPrice + (categoryCount * _costPerDelivery) + (productCount * _costPerPrpduct);
+            var totalCost = _fixedPrice + (categoryCount * _costPerDelivery) + (productCount * _costPerProduct);
 
             return totalCost > 0 ? totalCost : 0;
         }
