@@ -20,9 +20,21 @@ namespace ECommerceShopping.Test
             // Arrange
             CategoryBase category = new FirstCategory(1, "First");
             // Act
-            Assert.Throws<ArgumentException>(() => new CampaigDiscountByPercentage(id, title, discount, category, trashold));
-            // Assert
 
+            // Assert
+            Assert.Throws<ArgumentException>(() => new CampaigDiscountByPercentage(id, title, discount, category, trashold));
+        }
+
+        [Theory]
+        [InlineData(1, "test", 1, 1)]
+        public void Create_CampaigDiscountByPercentage_Should_Work_Tehory(int id, string title, decimal discount, int trashold)
+        {
+            // Arrange
+            CategoryBase category = new FirstCategory(1, "First");
+            // Act
+            var test = new CampaigDiscountByPercentage(id, title, discount, category, trashold);
+            // Assert
+            Assert.True(test !=null && test._id == id && test._title.Equals(title) &&  test._category == category);
         }
 
         [Theory]
@@ -38,9 +50,21 @@ namespace ECommerceShopping.Test
             // Arrange
             CategoryBase category = new FirstCategory(1, "First");
             // Act
-            Assert.Throws<ArgumentException>(() => new CampaignDiscountByAmount(id, title, discount, category, trashold));
-            // Assert
 
+            // Assert
+            Assert.Throws<ArgumentException>(() => new CampaignDiscountByAmount(id, title, discount, category, trashold));
+        }
+
+        [Theory]
+        [InlineData(1, "test", 1, 1)]
+        public void Create_CampaigDiscountByAmount_Should_Work_Tehory(int id, string title, decimal discount, int trashold)
+        {
+            // Arrange
+            CategoryBase category = new FirstCategory(1, "First");
+            // Act
+            var test = new CampaignDiscountByAmount(id, title, discount, category, trashold);
+            // Assert
+            Assert.True(test != null && test._id == id && test._title.Equals(title) && test._category == category);
         }
     }
 }

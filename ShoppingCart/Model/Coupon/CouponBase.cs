@@ -6,13 +6,16 @@ namespace ECommerceShopping
 {
     public abstract class CouponBase
     {
-        private readonly int CartId;
+        private int CartId;
         protected bool IsUsedInCalculation;
         protected bool IsActive;
-        protected readonly decimal TrasholdAmount;
-        protected readonly decimal Discount;
+        protected decimal TrasholdAmount;
+        protected decimal Discount;
         protected decimal CalculatedDiscountAmount = 0;
 
+        public int _cartId => CartId;
+        public decimal _discount => Discount;
+        public decimal _trasholdAmount => TrasholdAmount;
         public CouponBase(int cartId, decimal trasholdAmount, decimal discount)
         {
             if ( cartId <= 0 || trasholdAmount < 0 || discount < 0 )

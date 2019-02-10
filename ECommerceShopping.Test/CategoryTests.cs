@@ -24,5 +24,18 @@ namespace ECommerceShopping.Test
             // Assert
             
         }
+
+        [Theory]
+        [InlineData(1, "test")]
+        public void Create_Category_ShouldWork_Tehory(int id, string title)
+        {
+            // Arrange
+
+            // Act
+            var test = new FirstCategory(id, title);
+
+            // Assert
+            Assert.True(test != null && test._id == id && test._title.Equals(title));
+        }
     }
 }

@@ -20,9 +20,22 @@ namespace ECommerceShopping.Test
             // Arrange
             CategoryBase category = new FirstCategory(1, "First");
             // Act
-            Assert.Throws<ArgumentException>(() => new FirstProduct(id, title, price, category));
-            // Assert
 
+            // Assert
+            Assert.Throws<ArgumentException>(() => new FirstProduct(id, title, price, category));
+        }
+
+        [Theory]
+        [InlineData(1, "test", 1)]
+        public void Create_Product_ShouldWork_Tehory(int id, string title, decimal price)
+        {
+            // Arrange
+            CategoryBase category = new FirstCategory(1, "First");
+            // Act
+            var test = new FirstProduct(id, title, price, category);
+
+            // Assert
+            Assert.True(test != null && test._id == id && test._title.Equals(title));
         }
     }
 }
