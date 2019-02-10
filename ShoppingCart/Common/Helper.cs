@@ -12,8 +12,10 @@ namespace ECommerceShopping
         /// </summary>
         /// <param name="products"></param>
         /// <returns></returns>
-        public static decimal CalculateSumOfPrice(IList<ProductBase> products)
+        public static decimal CalculateSumPriceOfProductList(List<ProductBase> products)
         {
+            products.ThrowIfNull(nameof(products));
+
             if (products.Count() > 0)
                 return products.Sum(x => x._price);
 

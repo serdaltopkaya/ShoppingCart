@@ -25,7 +25,7 @@ namespace ECommerceShopping
             {
                 if(campaignReltedProducts.Count() > 0)
                 {
-                    CalculatedDiscountAmount = Helper.CalculateSumOfPrice(campaignReltedProducts) * Discount;
+                    CalculatedDiscountAmount = Helper.CalculateSumPriceOfProductList(campaignReltedProducts) * Discount;
                 }
             }
         }

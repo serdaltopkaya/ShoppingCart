@@ -25,5 +25,5 @@ namespace ECommerceShopping
         public string _title => Title;
         public decimal _price => Price;
         public CategoryBase _category => Category;
-    }
+    }    
 }

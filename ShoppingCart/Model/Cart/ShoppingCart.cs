@@ -20,7 +20,7 @@ namespace ECommerceShopping
         public List<ProductBase> _selectedProducts => SelectedProducts ?? new List<ProductBase>();
         public List<CouponBase> _cartCoupons => CartCoupons ?? new List<CouponBase>();
 
-        public decimal SumOfProducts { get { return Helper.CalculateSumOfPrice(_selectedProducts); } }
+        public decimal SumOfProducts { get { return Helper.CalculateSumPriceOfProductList(_selectedProducts); } }
         public decimal SumAfterCampaign { get { return SumOfProducts >= CampaignTotalDiscount ? (SumOfProducts - CampaignTotalDiscount) : 0; } }
         public decimal SumAfterCoupon { get { return SumAfterCampaign >= CouponTotalDiscount ? (SumAfterCampaign - CouponTotalDiscount) : 0; } }
 
