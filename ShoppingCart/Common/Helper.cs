@@ -28,11 +28,11 @@ namespace ECommerceShopping
             return new List<CampaignBase>();
         }
 
-        public static decimal CalculateCampaignDiscount(ShoppingCart cart, List<CampaignBase> campaigns)
+        public static decimal CalculateCampaignDiscount(List<ProductBase> products, List<CampaignBase> campaigns)
         {
-            if (campaigns != null && campaigns.Count() > 0 && cart != null && cart._selectedProducts.Count() > 0)
+            if (campaigns != null && campaigns.Count() > 0 && products != null && products.Count() > 0)
             {
-                campaigns.ForEach(x => { x.CalculateDiscount(cart._selectedProducts); });
+                campaigns.ForEach(x => { x.CalculateDiscount(products); });
 
                 return campaigns.Max(x => x._calculatedDiscountAmount);
             }

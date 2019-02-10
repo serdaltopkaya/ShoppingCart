@@ -11,15 +11,18 @@ namespace ECommerceShopping
         {
         }
 
-        public override decimal CalculateCost(ShoppingCart cart)
+        public override decimal CalculateCost(List<ProductBase> products)
         {
-            cart.ThrowIfNull(nameof(cart));
+            if (products != null && products.Count() > 0)
+            {
+                DetectCategoryAndProductCount(products, out int categoryCount, out int productCount);
 
-            DetectCategoryAndProductCount(cart._selectedProducts, out int categoryCount, out int productCount);
+                var totalCost = _fixedPrice + (categoryCount * _costPerDelivery) + (productCount * _costPerProduct);
 
-            var totalCost = _fixedPrice + (categoryCount * _costPerDelivery) + (productCount * _costPerProduct);
+                return totalCost > 0 ? totalCost : 0;
+            }
 
-            return totalCost > 0 ? totalCost : 0;
+            return 0;
         }
 
         private void DetectCategoryAndProductCount(List<ProductBase> products, out int categoryCount, out int productCount)

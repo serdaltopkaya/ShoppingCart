@@ -19,7 +19,7 @@ namespace ECommerceShopping
             CostPerDelivery = costPerDelivery;
             CostPerProduct = costPerProduct;
         }
-        public abstract decimal CalculateCost(ShoppingCart cart);
+        public abstract decimal CalculateCost(List<ProductBase> products);
 
         public decimal _fixedPrice => FixedPrice;
         public decimal _costPerDelivery => CostPerDelivery;

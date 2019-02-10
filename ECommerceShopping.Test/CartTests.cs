@@ -164,9 +164,10 @@ namespace ECommerceShopping.Test
             // Act
 
             shoppingCart.ApplyDiscounts(campaigns);
-
+            
+            shoppingCart.ApplayDelivery(delivery);
             // Assert
-            Assert.True(shoppingCart._isCouponApplied == true);
+            Assert.True(shoppingCart._isCouponApplied == true && shoppingCart._isCampaignApplied == true);
         }
     }
 }

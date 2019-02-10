@@ -18,6 +18,7 @@ namespace ECommerceShopping
         private bool IsCouponApplied;
         private decimal CampaignTotalDiscount;
         private decimal CouponTotalDiscount;
+        private decimal DeliveryCost;
 
         public List<ProductBase> _selectedProducts => SelectedProducts ?? new List<ProductBase>();
         public List<CouponBase> _cartCoupons => CartCoupons ?? new List<CouponBase>();
@@ -25,14 +26,13 @@ namespace ECommerceShopping
         public int _id => Id;
         public bool _isCampaignApplied => IsCampaignApplied;
         public bool _isCouponApplied => IsCouponApplied;
-
+        public decimal _deliveryCost => DeliveryCost;
 
         public decimal SumOfProducts { get { return Helper.CalculateSumPriceOfProductList(_selectedProducts); } }
         public decimal SumAfterCampaign { get { return SumOfProducts >= CampaignTotalDiscount ? (SumOfProducts - CampaignTotalDiscount) : 0; } }
         public decimal SumAfterCoupon { get { return SumAfterCampaign >= CouponTotalDiscount ? (SumAfterCampaign - CouponTotalDiscount) : 0; } }
-
-        public decimal TotalySum => SumAfterCoupon;
-
+        public decimal TotalySumAffterDelivery => (SumAfterCoupon + DeliveryCost); 
+ 
         public void AddCoupon(CouponBase coupon)
         {
             if (CartCoupons == null)
@@ -81,7 +81,7 @@ namespace ECommerceShopping
         {
             if (!IsCampaignApplied  && !IsCouponApplied)
             {                
-                CampaignTotalDiscount = Helper.CalculateCampaignDiscount(this, campaigns);
+                CampaignTotalDiscount = Helper.CalculateCampaignDiscount(_selectedProducts, campaigns);
 
                 IsCampaignApplied = true;
             }
@@ -95,6 +95,13 @@ namespace ECommerceShopping
                 IsCouponApplied = true;
                 CouponTotalDiscount = 0;
             }
+        }
+
+        public void ApplayDelivery(DeliveryBase delivery)
+        {
+            delivery.ThrowIfNull(nameof(delivery));
+
+            DeliveryCost =  delivery.CalculateCost(_selectedProducts);
         }
         
         private void ResetCouponUsage()

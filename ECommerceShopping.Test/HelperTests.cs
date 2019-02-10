@@ -63,7 +63,7 @@ namespace ECommerceShopping.Test
             var campaign = new CampaignDiscountByPercentage(1, "test", 10, category, 2);
             var campaigns = new List<CampaignBase>() { campaign};
             // Act
-            var camaignDiscount = Helper.CalculateCampaignDiscount(shoppingCart, campaigns);
+            var camaignDiscount = Helper.CalculateCampaignDiscount(shoppingCart._selectedProducts, campaigns);
 
             // Assert
             Assert.True(camaignDiscount == 30);

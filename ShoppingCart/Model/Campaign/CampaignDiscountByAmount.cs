@@ -23,12 +23,9 @@ namespace ECommerceShopping
             {
                 var campaignReltedProducts = products.Where(x => x._category._id == _category._id).ToList();
 
-                if (products.Count() >= TrasholdCount)
-                {
-                    if (campaignReltedProducts.Count() > 0)
-                    {
-                        CalculatedDiscountAmount = campaignReltedProducts.Count() * Discount;
-                    }
+                if (campaignReltedProducts.Count() >= TrasholdCount)
+                {                    
+                     CalculatedDiscountAmount = campaignReltedProducts.Count() * Discount;                    
                 }
             }
         }
