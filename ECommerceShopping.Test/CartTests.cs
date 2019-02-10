@@ -109,11 +109,8 @@ namespace ECommerceShopping.Test
             shoppingCart.AddProduct(product2);
             shoppingCart.AddProduct(product3);
 
-            //var campaign = new CampaignDiscountByPercentage(1, "test", 10, category, 2);
-            //var campaigns = new List<CampaignBase>() { campaign };
             // Act
-            //var camaignDiscount = Helper.CalculateCampaignDiscount(shoppingCart, campaigns);
-            shoppingCart.ApplyCampaigns();
+            shoppingCart.ApplyCampaigns(new List<CampaignBase>());
 
             // Assert
             Assert.True(shoppingCart._isCampaignApplied == true);
@@ -133,10 +130,41 @@ namespace ECommerceShopping.Test
             shoppingCart.AddProduct(product3);
 
             var coupon = new CouponDiscountByAmount(1, 100, 20);
-
             shoppingCart.AddCoupon(coupon);
             
+            // Act
             shoppingCart.ApplyCoupon();
+            // Assert
+            Assert.True(shoppingCart._isCouponApplied == true);
+        }
+
+
+
+        [Fact]
+        public void DeveryScenario_Should_Work()
+        {
+            // Arrange            
+            var shoppingCart = new ShoppingCart(1);
+            var category = new FirstCategory(1, "Food");
+            var apple = new FirstProduct(1, "Apple", 100, category);
+            var almonds = new FirstProduct(1, "Almonds", 150, category);
+            shoppingCart.AddProduct(apple, 3);
+            shoppingCart.AddProduct(almonds);
+
+            var campaign1 = new CampaignDiscountByPercentage(1, "Food Campaign 1", 20, category, 3);
+            var campaign2 = new CampaignDiscountByPercentage(2, "Food Campaign 2", 50, category, 5);
+            var campaign3 = new CampaignDiscountByAmount(3, "Food Campaign 3", 5, category, 0);
+            var campaigns = new List<CampaignBase>() { campaign1, campaign2, campaign3 };
+
+            var coupon = new CouponDiscountByPercentage(1, 100, 10);
+            shoppingCart.AddCoupon(coupon);
+
+            var delivery = new DeliverDynamic((decimal)2.99, 5, 3);
+
+            // Act
+
+            shoppingCart.ApplyDiscounts(campaigns);
+
             // Assert
             Assert.True(shoppingCart._isCouponApplied == true);
         }

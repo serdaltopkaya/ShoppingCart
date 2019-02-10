@@ -43,13 +43,18 @@ namespace ECommerceShopping
             coupon.CartId = _id;
         }
 
-        public void AddProduct(ProductBase product)
+        public void AddProduct(ProductBase product, int cout = 1)
         {
             if (SelectedProducts == null)
                 SelectedProducts = new List<ProductBase>();
 
             product.ThrowIfNull(nameof(product));
-            SelectedProducts.Add(product);
+            while (cout > 0)
+            {
+                SelectedProducts.Add(product);
+                cout -= 1;
+            }
+            
         }
 
         public void DeleteProduct(int productId, int count = 1)
@@ -72,13 +77,10 @@ namespace ECommerceShopping
             }
         }
 
-        public void ApplyCampaigns()
+        public void ApplyCampaigns(List<CampaignBase> campaigns)
         {
-            if (!IsCampaignApplied)
-            {
-                ResetCouponUsage();
-
-                var campaigns = Helper.GetActiveCampaigns();
+            if (!IsCampaignApplied  && !IsCouponApplied)
+            {                
                 CampaignTotalDiscount = Helper.CalculateCampaignDiscount(this, campaigns);
 
                 IsCampaignApplied = true;
@@ -87,10 +89,7 @@ namespace ECommerceShopping
 
         public void ApplyCoupon()
         {
-            if (!IsCampaignApplied)
-                ApplyCampaigns();
-
-            if (IsCampaignApplied && !IsCouponApplied)
+            if (!IsCouponApplied)
             {
                 _cartCoupons.ForEach(x => { x.CalculateApplicableCopons(SumAfterCampaign); });
                 IsCouponApplied = true;
@@ -110,12 +109,12 @@ namespace ECommerceShopping
             CampaignTotalDiscount = 0;
         }
 
-        public void ApplyDiscounts()
+        public void ApplyDiscounts(List<CampaignBase> campaigns)
         {
             ResetCouponUsage();
             ResetCampaignUsage();
 
-            ApplyCampaigns();
+            ApplyCampaigns(campaigns);
             ApplyCoupon();
         }
     }
