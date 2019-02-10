@@ -14,7 +14,7 @@ namespace ECommerceShopping
         }
 
         /// <summary>
-        /// checks campaign specific category products contain quantity then calculate discount amount.
+        /// Calculate campaign discount via appropriate product
         /// </summary>
         /// <param name="products"></param>
         public override void CalculateDiscount(List<ProductBase> products)

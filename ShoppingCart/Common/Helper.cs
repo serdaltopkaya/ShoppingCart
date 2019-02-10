@@ -28,6 +28,11 @@ namespace ECommerceShopping
             return new List<CampaignBase>();
         }
 
+        /// <summary>
+        /// Calculate per campaign discount
+        /// </summary>
+        /// <param name="products"></param>
+        /// <param name="campaigns"></param>
         public static void CalculateCampaignDiscount(List<ProductBase> products, List<CampaignBase> campaigns)
         {
             if (campaigns != null && campaigns.Count() > 0 && products != null && products.Count() > 0)
@@ -36,6 +41,11 @@ namespace ECommerceShopping
             }            
         }
 
+        /// <summary>
+        /// Calculate applied campaigns total discount
+        /// </summary>
+        /// <param name="campaigns"></param>
+        /// <returns></returns>
         public static decimal CalculateCampaignTotalDiscount(List<CampaignBase> campaigns)
         {
             if (campaigns != null && campaigns.Count() > 0)
@@ -46,6 +56,11 @@ namespace ECommerceShopping
             return 0;
         }
 
+        /// <summary>
+        /// Calculate used coupon total discount
+        /// </summary>
+        /// <param name="coupons"></param>
+        /// <returns></returns>
         public static decimal CalculateCouponTotalDiscount(List<CouponBase> coupons)
         {
             if (coupons != null && coupons.Count() > 0)
@@ -56,6 +71,11 @@ namespace ECommerceShopping
             return 0;
         }
 
+        /// <summary>
+        /// Get last one Max discounted campaigns applied each category from all applicables
+        /// </summary>
+        /// <param name="campaigns"></param>
+        /// <returns></returns>
         public static List<CampaignBase> GetApproopriateCampaigns(List<CampaignBase> campaigns)
         {
             if(campaigns != null || campaigns.Count() > 0)

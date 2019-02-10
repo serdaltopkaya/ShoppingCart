@@ -11,6 +11,11 @@ namespace ECommerceShopping
         {
         }
 
+        /// <summary>
+        /// Calculate deliver cost
+        /// </summary>
+        /// <param name="products"></param>
+        /// <returns></returns>
         public override decimal CalculateCost(List<ProductBase> products)
         {
             if (products != null && products.Count() > 0)
@@ -25,6 +30,13 @@ namespace ECommerceShopping
             return 0;
         }
 
+
+        /// <summary>
+        /// Detect category and product count for alternative cost
+        /// </summary>
+        /// <param name="products"></param>
+        /// <param name="categoryCount"></param>
+        /// <param name="productCount"></param>
         private void DetectCategoryAndProductCount(List<ProductBase> products, out int categoryCount, out int productCount)
         {
             if(products.Count() == 0)

@@ -6,6 +6,13 @@ namespace ECommerceShopping
 {
     public static partial class ShoppingCartExtensions
     {
+        /// <summary>
+        /// Checks and throws if  referance null
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="o"></param>
+        /// <param name="paramName"></param>
+        /// <returns></returns>
         internal static T ThrowIfNull<T>(this T o, string paramName) where T : class
         {
             if (o == null)

@@ -1,6 +1,7 @@
 ﻿using ECommerceShopping;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ECommerceShopingCartUsageExample
 {
@@ -11,7 +12,7 @@ namespace ECommerceShopingCartUsageExample
             var shoppingCart = new ShoppingCart(1);
             var category = new FirstCategory(1, "Food");
             var apple = new FirstProduct(1, "Apple", 100, category);
-            var almonds = new FirstProduct(1, "Almonds", 150, category);
+            var almonds = new FirstProduct(2, "Almonds", 150, category);
             shoppingCart.AddProduct(apple, 3);
             shoppingCart.AddProduct(almonds);
 
@@ -35,6 +36,28 @@ namespace ECommerceShopingCartUsageExample
             Console.WriteLine("Kullanılan Kopon : "+shoppingCart._couponTotalDiscount);
             Console.WriteLine("Kampanya indirimi : "+shoppingCart._campaignMaxDiscount);
 
+            var campaignsHasMaxDiscountByCategory = from c in shoppingCart._selectedProducts
+                                                    group c by c._category into ctg
+                                                    select ctg;
+
+            foreach (var item in campaignsHasMaxDiscountByCategory)
+            {
+                var appliedCampaign = shoppingCart._appliedCampaigns.FirstOrDefault(x => x._category == item.Key);
+                Console.Write( item.First()._category._title );
+                if(appliedCampaign != null)
+                    Console.Write("  uygulanan kampanya :  "+ appliedCampaign._calculatedDiscountAmount);
+                Console.WriteLine();
+
+                var produsctTypes = from c in item
+                                        group c by c._id into prd
+                                        select prd;
+
+                foreach (var item2 in produsctTypes)
+                {
+                    Console.WriteLine(item2.First()._title + " "+ item2.Count() + " "+ item2.Sum(x=> x._price));
+                }
+            }
+            
 
             Console.WriteLine("Kargo maliyeti : " +shoppingCart._deliveryCost);
             Console.WriteLine("Toplam Maliyet Tutarı : "+shoppingCart.TotalySumAffterDelivery);

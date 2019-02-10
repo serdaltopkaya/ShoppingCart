@@ -11,7 +11,7 @@ namespace ECommerceShopping
         }
 
         /// <summary>
-        /// after checks coupon applicable if it is then apply copun an sign it to inactive alfter usege for prevent multi time usage
+        /// Calculate applicable Copons
         /// </summary>
         /// <param name="amount"></param>
         public override void CalculateApplicableCopons(decimal amount)

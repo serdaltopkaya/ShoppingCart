@@ -14,7 +14,7 @@ namespace ECommerceShopping
         }
 
         /// <summary>
-        /// if count bigger then trashold discount applys to per product
+        /// Calculate campaign discount via appropriate product
         /// </summary>
         /// <param name="products"></param>
         public override void CalculateDiscount(List<ProductBase> products)
