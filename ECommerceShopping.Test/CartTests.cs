@@ -11,7 +11,7 @@ namespace ECommerceShopping.Test
         public void AddCoupon_With_Invalid_Value_Throw_ArgumentException()
         {
             // Arrange
-            var test = new ShoppingCart();
+            var test = new ShoppingCart(1);
             // Act
 
 
@@ -23,7 +23,7 @@ namespace ECommerceShopping.Test
         public void AddCoupon_ShouldWork()
         {
             // Arrange
-            var test = new ShoppingCart();
+            var test = new ShoppingCart(1);
             var coupon = new CouponDiscountByAmount(1, 1, 1);
             // Act
             test.AddCoupon(coupon);
@@ -36,7 +36,7 @@ namespace ECommerceShopping.Test
         public void AddProduct_With_Invalid_Value_Throw_ArgumentException()
         {
             // Arrange
-            var test = new ShoppingCart();
+            var test = new ShoppingCart(1);
 
             // Act
 
@@ -48,7 +48,7 @@ namespace ECommerceShopping.Test
         public void AddProduct_ShouldWork()
         {
             // Arrange
-            var test = new ShoppingCart();
+            var test = new ShoppingCart(1);
             var category = new FirstCategory(1, "test");
             var product = new FirstProduct(1, "test", 1, category);
             // Act
@@ -62,7 +62,7 @@ namespace ECommerceShopping.Test
         public void DeleteProduct_ShouldWork()
         {
             // Arrange
-            var test = new ShoppingCart();
+            var test = new ShoppingCart(1);
             var category = new FirstCategory(1, "test");
             var product = new FirstProduct(1, "test", 1, category);
             test.AddProduct(product);
@@ -85,7 +85,7 @@ namespace ECommerceShopping.Test
         public void DeleteProduct_ShouldWork_Theory(int id, int count)
         {
             // Arrange
-            var test = new ShoppingCart();
+            var test = new ShoppingCart(1);
             var category = new FirstCategory(1, "test");
             var product = new FirstProduct(1, "test", 1, category);
             test.AddProduct(product);
@@ -95,5 +95,50 @@ namespace ECommerceShopping.Test
             // Assert
             Assert.True(test._selectedProducts.Count == 1 );
         }        
+
+        [Fact]
+        public void ApplyCampaigns_Should_Work()
+        {
+            // Arrange            
+            var shoppingCart = new ShoppingCart(1);
+            var category = new FirstCategory(1, "test");
+            var product = new FirstProduct(1, "test", 100, category);
+            var product2 = new FirstProduct(1, "test", 100, category);
+            var product3 = new FirstProduct(1, "test", 100, category);
+            shoppingCart.AddProduct(product);
+            shoppingCart.AddProduct(product2);
+            shoppingCart.AddProduct(product3);
+
+            //var campaign = new CampaignDiscountByPercentage(1, "test", 10, category, 2);
+            //var campaigns = new List<CampaignBase>() { campaign };
+            // Act
+            //var camaignDiscount = Helper.CalculateCampaignDiscount(shoppingCart, campaigns);
+            shoppingCart.ApplyCampaigns();
+
+            // Assert
+            Assert.True(shoppingCart._isCampaignApplied == true);
+        }
+
+        [Fact]
+        public void AddCoupon_Should_Work()
+        {
+            // Arrange            
+            var shoppingCart = new ShoppingCart(1);
+            var category = new FirstCategory(1, "test");
+            var product = new FirstProduct(1, "test", 100, category);
+            var product2 = new FirstProduct(1, "test", 100, category);
+            var product3 = new FirstProduct(1, "test", 100, category);
+            shoppingCart.AddProduct(product);
+            shoppingCart.AddProduct(product2);
+            shoppingCart.AddProduct(product3);
+
+            var coupon = new CouponDiscountByAmount(1, 100, 20);
+
+            shoppingCart.AddCoupon(coupon);
+            
+            shoppingCart.ApplyCoupon();
+            // Assert
+            Assert.True(shoppingCart._isCouponApplied == true);
+        }
     }
 }

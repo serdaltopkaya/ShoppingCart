@@ -34,7 +34,7 @@ namespace ECommerceShopping.Test
             // Act
             var test = new CouponDiscountByPercentage(id, trashold, discount);
             // Assert
-            Assert.True(test != null && test._cartId == id && test._discount == discount && test._trasholdAmount == trashold);
+            Assert.True(test != null && test.CartId == id && test._discount == discount && test._trasholdAmount == trashold);
         }
 
         [Theory]
@@ -64,7 +64,7 @@ namespace ECommerceShopping.Test
             // Act
             var test = new CouponDiscountByAmount(id, trashold, discount);
             // Assert
-            Assert.True(test != null && test._cartId == id && test._discount == discount && test._trasholdAmount == trashold);
+            Assert.True(test != null && test.CartId == id && test._discount == discount && test._trasholdAmount == trashold);
         }
     }
 }

@@ -6,14 +6,13 @@ namespace ECommerceShopping
 {
     public abstract class CouponBase
     {
-        private int CartId;
+        public int CartId { get; set; }
         protected bool IsUsedInCalculation;
         protected bool IsActive;
         protected decimal TrasholdAmount;
         protected decimal Discount;
         protected decimal CalculatedDiscountAmount = 0;
-
-        public int _cartId => CartId;
+        
         public decimal _discount => Discount;
         public decimal _trasholdAmount => TrasholdAmount;
         public CouponBase(int cartId, decimal trasholdAmount, decimal discount)
@@ -29,6 +28,6 @@ namespace ECommerceShopping
 
         public decimal _calculatedDiscountAmount => CalculatedDiscountAmount;
 
-        public abstract void CalculateApplicableCopons(decimal amount);
+        public abstract void CalculateApplicableCopons(decimal amount);        
     }
 }

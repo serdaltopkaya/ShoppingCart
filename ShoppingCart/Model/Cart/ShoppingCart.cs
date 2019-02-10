@@ -7,9 +7,11 @@ namespace ECommerceShopping
 {
     public class ShoppingCart
     {
-        public ShoppingCart()
+        public ShoppingCart(int id)
         {
+            this.Id = id;
         }
+        private int Id;
         private List<ProductBase> SelectedProducts;
         private List<CouponBase> CartCoupons;
         private bool IsCampaignApplied;
@@ -19,6 +21,11 @@ namespace ECommerceShopping
 
         public List<ProductBase> _selectedProducts => SelectedProducts ?? new List<ProductBase>();
         public List<CouponBase> _cartCoupons => CartCoupons ?? new List<CouponBase>();
+
+        public int _id => Id;
+        public bool _isCampaignApplied => IsCampaignApplied;
+        public bool _isCouponApplied => IsCouponApplied;
+
 
         public decimal SumOfProducts { get { return Helper.CalculateSumPriceOfProductList(_selectedProducts); } }
         public decimal SumAfterCampaign { get { return SumOfProducts >= CampaignTotalDiscount ? (SumOfProducts - CampaignTotalDiscount) : 0; } }
@@ -33,6 +40,7 @@ namespace ECommerceShopping
 
             coupon.ThrowIfNull(nameof(coupon));
             CartCoupons.Add(coupon);
+            coupon.CartId = _id;
         }
 
         public void AddProduct(ProductBase product)
@@ -64,13 +72,14 @@ namespace ECommerceShopping
             }
         }
 
-        public void ApplyCompaigns()
+        public void ApplyCampaigns()
         {
             if (!IsCampaignApplied)
             {
                 ResetCouponUsage();
 
-                CampaignTotalDiscount = Helper.CalculateCampaignDiscount(this);
+                var campaigns = Helper.GetActiveCampaigns();
+                CampaignTotalDiscount = Helper.CalculateCampaignDiscount(this, campaigns);
 
                 IsCampaignApplied = true;
             }
@@ -78,6 +87,9 @@ namespace ECommerceShopping
 
         public void ApplyCoupon()
         {
+            if (!IsCampaignApplied)
+                ApplyCampaigns();
+
             if (IsCampaignApplied && !IsCouponApplied)
             {
                 _cartCoupons.ForEach(x => { x.CalculateApplicableCopons(SumAfterCampaign); });
@@ -103,7 +115,7 @@ namespace ECommerceShopping
             ResetCouponUsage();
             ResetCampaignUsage();
 
-            ApplyCompaigns();
+            ApplyCampaigns();
             ApplyCoupon();
         }
     }
