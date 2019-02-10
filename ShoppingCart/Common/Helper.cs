@@ -28,16 +28,48 @@ namespace ECommerceShopping
             return new List<CampaignBase>();
         }
 
-        public static decimal CalculateCampaignDiscount(List<ProductBase> products, List<CampaignBase> campaigns)
+        public static void CalculateCampaignDiscount(List<ProductBase> products, List<CampaignBase> campaigns)
         {
             if (campaigns != null && campaigns.Count() > 0 && products != null && products.Count() > 0)
             {
-                campaigns.ForEach(x => { x.CalculateDiscount(products); });
+                campaigns.ForEach(x => { x.CalculateDiscount(products); });                
+            }            
+        }
 
-                return campaigns.Max(x => x._calculatedDiscountAmount);
+        public static decimal CalculateCampaignTotalDiscount(List<CampaignBase> campaigns)
+        {
+            if (campaigns != null && campaigns.Count() > 0)
+            {
+                return campaigns.Sum(x => x._calculatedDiscountAmount);
             }
 
             return 0;
-        }       
+        }
+
+        public static decimal CalculateCouponTotalDiscount(List<CouponBase> coupons)
+        {
+            if (coupons != null && coupons.Count() > 0)
+            {
+                return coupons.Sum(x => x._calculatedDiscountAmount);
+            }
+
+            return 0;
+        }
+
+        public static List<CampaignBase> GetApproopriateCampaigns(List<CampaignBase> campaigns)
+        {
+            if(campaigns != null || campaigns.Count() > 0)
+            {
+               var appliedCampaigns = campaigns.Where(x => x._calculatedDiscountAmount > 0);
+
+                var campaignsHasMaxDiscountByCategory = from c in campaigns
+                                      group c by c._category into ctg
+                                      select ctg.OrderByDescending(c => c._calculatedDiscountAmount).FirstOrDefault();
+
+                return campaignsHasMaxDiscountByCategory.ToList();
+            }
+
+            return new List<CampaignBase>();
+        }
     }
 }

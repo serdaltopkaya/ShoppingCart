@@ -14,9 +14,10 @@ namespace ECommerceShopping
         private int Id;
         private List<ProductBase> SelectedProducts;
         private List<CouponBase> CartCoupons;
+        private List<CampaignBase> AppliedCampaigns;
         private bool IsCampaignApplied;
         private bool IsCouponApplied;
-        private decimal CampaignMaxDiscount;
+        private decimal CampaignTotalDiscount;
         private decimal CouponTotalDiscount;
         private decimal DeliveryCost;
 
@@ -28,11 +29,11 @@ namespace ECommerceShopping
         public bool _isCouponApplied => IsCouponApplied;
         public decimal _deliveryCost => DeliveryCost;
 
-        public decimal _campaignMaxDiscount => CampaignMaxDiscount;
+        public decimal _campaignMaxDiscount => CampaignTotalDiscount;
         public decimal _couponTotalDiscount => CouponTotalDiscount;
 
         public decimal SumOfProducts { get { return Helper.CalculateSumPriceOfProductList(_selectedProducts); } }
-        public decimal SumAfterCampaign { get { return SumOfProducts >= CampaignMaxDiscount ? (SumOfProducts - CampaignMaxDiscount) : 0; } }
+        public decimal SumAfterCampaign { get { return SumOfProducts >= CampaignTotalDiscount ? (SumOfProducts - CampaignTotalDiscount) : 0; } }
         public decimal TotalAmountAfterDiscount { get { return SumAfterCampaign >= CouponTotalDiscount ? (SumAfterCampaign - CouponTotalDiscount) : 0; } }
         public decimal TotalySumAffterDelivery => (TotalAmountAfterDiscount + DeliveryCost); 
  
@@ -84,11 +85,16 @@ namespace ECommerceShopping
         {
             if (!IsCampaignApplied  && !IsCouponApplied)
             {                
-                CampaignMaxDiscount = Helper.CalculateCampaignDiscount(_selectedProducts, campaigns);
+                Helper.CalculateCampaignDiscount(_selectedProducts, campaigns);
+
+                AppliedCampaigns = Helper.GetApproopriateCampaigns(campaigns);
+
+                CampaignTotalDiscount = Helper.CalculateCampaignTotalDiscount(AppliedCampaigns);
 
                 IsCampaignApplied = true;
             }
         }
+        
 
         public void ApplyCoupon()
         {
@@ -96,7 +102,7 @@ namespace ECommerceShopping
             {
                 _cartCoupons.ForEach(x => { x.CalculateApplicableCopons(SumAfterCampaign); });
                 IsCouponApplied = true;
-                CouponTotalDiscount = 0;
+                CouponTotalDiscount = Helper.CalculateCouponTotalDiscount(_cartCoupons);
             }
         }
 
@@ -111,12 +117,14 @@ namespace ECommerceShopping
         {
             IsCouponApplied = false;
             CouponTotalDiscount = 0;
+            _cartCoupons.ForEach(x => { x.ResetUsage(); });
         }
 
         private void ResetCampaignUsage()
         {
             IsCampaignApplied = false;
-            CampaignMaxDiscount = 0;
+            CampaignTotalDiscount = 0;
+            AppliedCampaigns = new List<CampaignBase>();
         }
 
         public void ApplyDiscounts(List<CampaignBase> campaigns)

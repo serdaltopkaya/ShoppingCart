@@ -30,14 +30,16 @@ namespace ECommerceShopingCartUsageExample
             shoppingCart.ApplyDiscounts(campaigns);
 
             shoppingCart.ApplayDelivery(delivery);
+            Console.WriteLine("Indirim öncesi Tutar : " + shoppingCart.SumOfProducts);
+            Console.WriteLine("Indirim sonrası Tutar : "+ shoppingCart.TotalAmountAfterDiscount);
+            Console.WriteLine("Kullanılan Kopon : "+shoppingCart._couponTotalDiscount);
+            Console.WriteLine("Kampanya indirimi : "+shoppingCart._campaignMaxDiscount);
 
-            Console.WriteLine(shoppingCart.TotalAmountAfterDiscount);
-            Console.WriteLine(shoppingCart._couponTotalDiscount);
-            Console.WriteLine(shoppingCart._campaignMaxDiscount);
 
+            Console.WriteLine("Kargo maliyeti : " +shoppingCart._deliveryCost);
+            Console.WriteLine("Toplam Maliyet Tutarı : "+shoppingCart.TotalySumAffterDelivery);
 
-            Console.WriteLine(shoppingCart._deliveryCost);
-            Console.WriteLine(shoppingCart.TotalySumAffterDelivery);
+            Console.ReadLine();
         }
     }
 }

@@ -28,6 +28,11 @@ namespace ECommerceShopping
 
         public decimal _calculatedDiscountAmount => CalculatedDiscountAmount;
 
-        public abstract void CalculateApplicableCopons(decimal amount);        
+        public abstract void CalculateApplicableCopons(decimal amount);   
+        public void ResetUsage()
+        {
+            CalculatedDiscountAmount = 0;
+            IsUsedInCalculation = false;
+        }
     }
 }

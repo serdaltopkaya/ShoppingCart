@@ -45,28 +45,6 @@ namespace ECommerceShopping.Test
             
             // Assert
             Assert.Throws<ArgumentException>(() => Helper.CalculateSumPriceOfProductList(null));
-        }
-
-        [Fact]
-        public void CalculateCampaignDiscount_Shold_Work()
-        {
-            // Arrange            
-            var shoppingCart = new ShoppingCart(1);
-            var category = new FirstCategory(1, "test");
-            var product = new FirstProduct(1, "test", 100, category);
-            var product2 = new FirstProduct(1, "test", 100, category);
-            var product3 = new FirstProduct(1, "test", 100, category);
-            shoppingCart.AddProduct(product);
-            shoppingCart.AddProduct(product2);
-            shoppingCart.AddProduct(product3);
-
-            var campaign = new CampaignDiscountByPercentage(1, "test", 10, category, 2);
-            var campaigns = new List<CampaignBase>() { campaign};
-            // Act
-            var camaignDiscount = Helper.CalculateCampaignDiscount(shoppingCart._selectedProducts, campaigns);
-
-            // Assert
-            Assert.True(camaignDiscount == 30);
-        }
+        }        
     }
 }

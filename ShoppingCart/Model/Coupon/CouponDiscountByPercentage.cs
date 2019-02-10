@@ -22,7 +22,7 @@ namespace ECommerceShopping
                 if (amount > TrasholdAmount)
                 {
                     IsUsedInCalculation = true;
-                    CalculatedDiscountAmount = amount * Discount;
+                    CalculatedDiscountAmount = amount * Discount/100;
                 }
             }
         }
