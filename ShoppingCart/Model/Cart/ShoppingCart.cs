@@ -16,7 +16,7 @@ namespace ECommerceShopping
         private List<CouponBase> CartCoupons;
         private bool IsCampaignApplied;
         private bool IsCouponApplied;
-        private decimal CampaignTotalDiscount;
+        private decimal CampaignMaxDiscount;
         private decimal CouponTotalDiscount;
         private decimal DeliveryCost;
 
@@ -28,10 +28,13 @@ namespace ECommerceShopping
         public bool _isCouponApplied => IsCouponApplied;
         public decimal _deliveryCost => DeliveryCost;
 
+        public decimal _campaignMaxDiscount => CampaignMaxDiscount;
+        public decimal _couponTotalDiscount => CouponTotalDiscount;
+
         public decimal SumOfProducts { get { return Helper.CalculateSumPriceOfProductList(_selectedProducts); } }
-        public decimal SumAfterCampaign { get { return SumOfProducts >= CampaignTotalDiscount ? (SumOfProducts - CampaignTotalDiscount) : 0; } }
-        public decimal SumAfterCoupon { get { return SumAfterCampaign >= CouponTotalDiscount ? (SumAfterCampaign - CouponTotalDiscount) : 0; } }
-        public decimal TotalySumAffterDelivery => (SumAfterCoupon + DeliveryCost); 
+        public decimal SumAfterCampaign { get { return SumOfProducts >= CampaignMaxDiscount ? (SumOfProducts - CampaignMaxDiscount) : 0; } }
+        public decimal TotalAmountAfterDiscount { get { return SumAfterCampaign >= CouponTotalDiscount ? (SumAfterCampaign - CouponTotalDiscount) : 0; } }
+        public decimal TotalySumAffterDelivery => (TotalAmountAfterDiscount + DeliveryCost); 
  
         public void AddCoupon(CouponBase coupon)
         {
@@ -81,7 +84,7 @@ namespace ECommerceShopping
         {
             if (!IsCampaignApplied  && !IsCouponApplied)
             {                
-                CampaignTotalDiscount = Helper.CalculateCampaignDiscount(_selectedProducts, campaigns);
+                CampaignMaxDiscount = Helper.CalculateCampaignDiscount(_selectedProducts, campaigns);
 
                 IsCampaignApplied = true;
             }
@@ -113,7 +116,7 @@ namespace ECommerceShopping
         private void ResetCampaignUsage()
         {
             IsCampaignApplied = false;
-            CampaignTotalDiscount = 0;
+            CampaignMaxDiscount = 0;
         }
 
         public void ApplyDiscounts(List<CampaignBase> campaigns)
