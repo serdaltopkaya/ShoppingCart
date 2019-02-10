@@ -22,7 +22,7 @@ namespace ECommerceShopping.Test
             // Act
 
             // Assert
-            Assert.Throws<ArgumentException>(() => new CampaigDiscountByPercentage(id, title, discount, category, trashold));
+            Assert.Throws<ArgumentException>(() => new CampaignDiscountByPercentage(id, title, discount, category, trashold));
         }
 
         [Theory]
@@ -32,9 +32,45 @@ namespace ECommerceShopping.Test
             // Arrange
             CategoryBase category = new FirstCategory(1, "First");
             // Act
-            var test = new CampaigDiscountByPercentage(id, title, discount, category, trashold);
+            var test = new CampaignDiscountByPercentage(id, title, discount, category, trashold);
             // Assert
             Assert.True(test !=null && test._id == id && test._title.Equals(title) &&  test._category == category);
+        }
+
+
+        [Fact]
+        public void CalculateDiscount_For_CampaigDiscountByPercentage_Should_Work()
+        {
+            // Arrange
+            CategoryBase category = new FirstCategory(1, "First");
+            var test = new CampaignDiscountByPercentage(1, "test", 1, category, 3);                           
+
+            // Act
+            test.CalculateDiscount(null);
+
+            // Assert
+            Assert.True(test._calculatedDiscountAmount == 0);
+        }
+
+
+        [Fact]
+        public void CalculateDiscount_For_CampaigDiscountByPercentage_Should_Work_AndApply_Discount()
+        {
+            // Arrange
+            CategoryBase category = new FirstCategory(1, "First");
+
+            var products = new List<ProductBase>();
+            products.Add(new FirstProduct(1, "test", 10, category));
+            products.Add(new FirstProduct(1, "test", 10, category));
+            products.Add(new FirstProduct(1, "test", 10, category));
+
+            var test = new CampaignDiscountByPercentage(1, "test", 10, category, 3);
+
+            // Act
+            test.CalculateDiscount(products);
+
+            // Assert
+            Assert.True(test._calculatedDiscountAmount == 3);
         }
 
         [Theory]
@@ -66,5 +102,41 @@ namespace ECommerceShopping.Test
             // Assert
             Assert.True(test != null && test._id == id && test._title.Equals(title) && test._category == category);
         }
+
+        [Fact]
+        public void CalculateDiscount_For_CampaigDiscountByAmount_Should_Work()
+        {
+            // Arrange
+            CategoryBase category = new FirstCategory(1, "First");
+            var test = new CampaignDiscountByAmount(1, "test", 1, category, 3);
+
+            // Act
+            test.CalculateDiscount(null);
+
+            // Assert
+            Assert.True(test._calculatedDiscountAmount == 0);
+        }
+
+
+        [Fact]
+        public void CalculateDiscount_For_CampaigDiscountByAmount_Should_Work_AndApply_Discount()
+        {
+            // Arrange
+            CategoryBase category = new FirstCategory(1, "First");
+
+            var products = new List<ProductBase>();
+            products.Add(new FirstProduct(1, "test", 10, category));
+            products.Add(new FirstProduct(1, "test", 10, category));
+            products.Add(new FirstProduct(1, "test", 10, category));
+
+            var test = new CampaignDiscountByAmount(1, "test", 5, category, 3);
+
+            // Act
+            test.CalculateDiscount(products);
+
+            // Assert
+            Assert.True(test._calculatedDiscountAmount == 15);
+        }
+
     }
 }

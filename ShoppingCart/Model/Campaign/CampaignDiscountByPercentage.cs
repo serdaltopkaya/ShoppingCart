@@ -5,16 +5,16 @@ using System.Text;
 
 namespace ECommerceShopping
 {
-    public class CampaignDiscountByAmount : CampaignBase
+    public class CampaignDiscountByPercentage : CampaignBase
     {
-        private readonly decimal TrasholdCount;
-        public CampaignDiscountByAmount(int id, string title, decimal discount, CategoryBase category, decimal trasholdCount) : base(id, title, discount, category)
+        private readonly int TrasholdCount;
+        public CampaignDiscountByPercentage(int id, string title, decimal discount, CategoryBase category, int trasholdCount) : base(id, title, discount, category)
         {
             TrasholdCount = trasholdCount;
         }
 
         /// <summary>
-        /// if count bigger then trashold discount applys to per product
+        /// checks campaign specific category products contain quantity then calculate discount amount.
         /// </summary>
         /// <param name="products"></param>
         public override void CalculateDiscount(List<ProductBase> products)
@@ -23,11 +23,11 @@ namespace ECommerceShopping
             {
                 var campaignReltedProducts = products.Where(x => x._category._id == _category._id).ToList();
 
-                if (products.Count() >= TrasholdCount)
+                if (products.Count >= TrasholdCount)
                 {
                     if (campaignReltedProducts.Count() > 0)
                     {
-                        CalculatedDiscountAmount = campaignReltedProducts.Count() * Discount;
+                        CalculatedDiscountAmount = (Helper.CalculateSumPriceOfProductList(campaignReltedProducts) * Discount) / 100;
                     }
                 }
             }
