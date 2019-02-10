@@ -35,7 +35,6 @@ namespace ECommerceShopping
             activeCompaigns.ForEach(x => { x.CalculateDiscount(cart._selectedProducts); });
 
             return activeCompaigns.Max(x => x._calculatedDiscountAmount);
-
         }
        
     }

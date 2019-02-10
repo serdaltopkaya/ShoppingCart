@@ -9,8 +9,6 @@ namespace ECommerceShopping
     {
         public ShoppingCart()
         {
-            SelectedProducts = new List<ProductBase>();
-            CartCoupons = new List<CouponBase>();
         }
         private List<ProductBase> SelectedProducts;
         private List<CouponBase> CartCoupons;
@@ -19,20 +17,29 @@ namespace ECommerceShopping
         private decimal CampaignTotalDiscount;
         private decimal CouponTotalDiscount;
 
-        public decimal SumOfProducts { get { return Helper.CalculateSumOfPrice(SelectedProducts); } }
+        public List<ProductBase> _selectedProducts => SelectedProducts ?? new List<ProductBase>();
+        public List<CouponBase> _cartCoupons => CartCoupons ?? new List<CouponBase>();
+
+        public decimal SumOfProducts { get { return Helper.CalculateSumOfPrice(_selectedProducts); } }
         public decimal SumAfterCampaign { get { return SumOfProducts >= CampaignTotalDiscount ? (SumOfProducts - CampaignTotalDiscount) : 0; } }
         public decimal SumAfterCoupon { get { return SumAfterCampaign >= CouponTotalDiscount ? (SumAfterCampaign - CouponTotalDiscount) : 0; } }
 
         public void AddCoupon(CouponBase coupon)
         {
+            if (CartCoupons == null)
+                CartCoupons = new List<CouponBase>();
+
             coupon.ThrowIfNull(nameof(coupon));
             CartCoupons.Add(coupon);
         }
 
         public void AddProduct(ProductBase product)
         {
+            if (SelectedProducts == null)
+                SelectedProducts = new List<ProductBase>();
+
             product.ThrowIfNull(nameof(product));
-            SelectedProducts.Add(product);           
+            SelectedProducts.Add(product);
         }
 
         public void DeleteProduct(int productId, int count = 1)
@@ -61,17 +68,17 @@ namespace ECommerceShopping
             {
                 ResetCouponUsage();
 
-                CampaignTotalDiscount = Helper.CalculateCampaignDiscount(this);                
+                CampaignTotalDiscount = Helper.CalculateCampaignDiscount(this);
 
                 IsCampaignApplied = true;
             }
         }
 
         public void ApplyCoupon()
-        {            
+        {
             if (IsCampaignApplied && !IsCouponApplied)
             {
-                CartCoupons.ForEach(x => { x.CalculateApplicableCopons(SumAfterCampaign); });
+                _cartCoupons.ForEach(x => { x.CalculateApplicableCopons(SumAfterCampaign); });
                 IsCouponApplied = true;
                 CouponTotalDiscount = 0;
             }
@@ -102,7 +109,5 @@ namespace ECommerceShopping
             ApplyCompaigns();
             ApplyCoupon();
         }
-
-        public List<ProductBase> _selectedProducts => SelectedProducts;
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ECommerceShopping
 {
-    class CampaignDiscountByAmount : CampaignBase
+    public class CampaignDiscountByAmount : CampaignBase
     {
         private readonly decimal TrasholdCount;
         public CampaignDiscountByAmount(int id, string title, decimal discount, CategoryBase category, decimal trasholdCount) : base(id, title, discount, category)

@@ -9,8 +9,8 @@ namespace ECommerceShopping
         private readonly int Id;
         private readonly string Title;
         private readonly decimal Price;
-        private readonly CampaignBase Category;
-        public ProductBase (int id, string title, decimal price, CampaignBase category)
+        private readonly CategoryBase Category;
+        public ProductBase (int id, string title, decimal price, CategoryBase category)
         {            
             if(id <= 0 || price < 0 )
                 throw new ArgumentException();
@@ -24,6 +24,6 @@ namespace ECommerceShopping
         public int _id => Id;
         public string _title => Title;
         public decimal _price => Price;
-        public CampaignBase _category => Category;
+        public CategoryBase _category => Category;
     }
 }

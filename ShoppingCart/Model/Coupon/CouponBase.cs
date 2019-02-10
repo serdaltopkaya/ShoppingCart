@@ -15,7 +15,7 @@ namespace ECommerceShopping
 
         public CouponBase(int cartId, decimal trasholdAmount, decimal discount)
         {
-            if (cartId <= 0 || trasholdAmount < 0 || discount < 0 )
+            if ( cartId <= 0 || trasholdAmount < 0 || discount < 0 )
                 throw new ArgumentException();
 
             CartId = cartId;
