@@ -24,6 +24,8 @@ namespace ECommerceShopping
         public decimal SumAfterCampaign { get { return SumOfProducts >= CampaignTotalDiscount ? (SumOfProducts - CampaignTotalDiscount) : 0; } }
         public decimal SumAfterCoupon { get { return SumAfterCampaign >= CouponTotalDiscount ? (SumAfterCampaign - CouponTotalDiscount) : 0; } }
 
+        public decimal TotalySum => SumAfterCoupon;
+
         public void AddCoupon(CouponBase coupon)
         {
             if (CartCoupons == null)
@@ -83,12 +85,7 @@ namespace ECommerceShopping
                 CouponTotalDiscount = 0;
             }
         }
-
-        public decimal TotalySum()
-        {
-            return SumAfterCoupon;
-        }
-
+        
         private void ResetCouponUsage()
         {
             IsCouponApplied = false;
